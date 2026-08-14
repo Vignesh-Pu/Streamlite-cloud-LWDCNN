@@ -125,19 +125,7 @@ with col_left:
     st.markdown("- Conv(8)→BN→Pool\n- Conv(16)→BN→Pool\n- Conv(32)→BN→Pool\n- Conv(32)→BN→Pool\n- GAP\n- Dense(64)→BN\n- Dense(16)→BN\n- Dense(1)→Sigmoid")
 
 with col_right:
-    if uploaded:
-        # FIX 1: Force PIL to fully read and convert the image into memory immediately
-        img = Image.open(uploaded).convert("RGB")
-
-        c1, c2 = st.columns(2)
-        with c1:
-            # FIX 2: Update the deprecated syntax to the modern Streamlit container width
-            st.image(img, caption="Uploaded Fundus Image", use_container_width=True)
-
-        with c2:
-            with st.spinner("Running inference..."):
-                img_array = preprocess(img)
-                prob = predict_dr_lite(img_array, weights)
+    
     weights = load_weights()
 
     uploaded = st.file_uploader(
@@ -146,7 +134,7 @@ with col_right:
     )
 
     if uploaded:
-        img = Image.open(uploaded)
+        img = Image.open(uploaded).convert("RGB")
 
         c1, c2 = st.columns(2)
         with c1:
